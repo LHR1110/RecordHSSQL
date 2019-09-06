@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sinosoft.project.video.dao.MainMapper" >
+  <resultMap id="BaseResultMap" type="sinosoft.project.video.xmlbean.VideoMain" >
+    <id column="docid" property="docid" jdbcType="VARCHAR" />
+    <result column="doccode" property="doccode" jdbcType="VARCHAR" />
+    <result column="businessno" property="businessno" jdbcType="VARCHAR" />
+    <result column="beforebusinessno" property="beforebusinessno" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="busstype" property="busstype" jdbcType="VARCHAR" />
+    <result column="subtype" property="subtype" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="numpages" property="numpages" jdbcType="VARCHAR" />
+    <result column="agentid" property="agentid" jdbcType="VARCHAR" />
+    <result column="agentname" property="agentname" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="risktypecode" property="risktypecode" jdbcType="VARCHAR" />
+    <result column="appntname" property="appntname" jdbcType="VARCHAR" />
+    <result column="appntidtype" property="appntidtype" jdbcType="VARCHAR" />
+    <result column="appntidno" property="appntidno" jdbcType="VARCHAR" />
+    <result column="appntbirthday" property="appntbirthday" jdbcType="TIMESTAMP" />
+    <result column="appntadress" property="appntadress" jdbcType="VARCHAR" />
+    <result column="appntsex" property="appntsex" jdbcType="VARCHAR" />
+    <result column="appntage" property="appntage" jdbcType="VARCHAR" />
+    <result column="insuredname" property="insuredname" jdbcType="VARCHAR" />
+    <result column="insuredtype" property="insuredtype" jdbcType="VARCHAR" />
+    <result column="insuredno" property="insuredno" jdbcType="VARCHAR" />
+    <result column="insuredbirthday" property="insuredbirthday" jdbcType="TIMESTAMP" />
+    <result column="insuredadress" property="insuredadress" jdbcType="VARCHAR" />
+    <result column="insuredsex" property="insuredsex" jdbcType="VARCHAR" />
+    <result column="insuredage" property="insuredage" jdbcType="VARCHAR" />
+    <result column="polapplydate" property="polapplydate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="verdict" property="verdict" jdbcType="VARCHAR" />
+    <result column="qcoperator" property="qcoperator" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="requestid" property="requestid" jdbcType="VARCHAR" />
+    <result column="productrisklevels" property="productrisklevels" jdbcType="VARCHAR" />
+    <result column="companyname" property="companyname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    docid, doccode, businessno, beforebusinessno, channel, busstype, subtype, type, numpages, 
+    agentid, agentname, company, risktypecode, appntname, appntidtype, appntidno, appntbirthday, 
+    appntadress, appntsex, appntage, insuredname, insuredtype, insuredno, insuredbirthday, 
+    insuredadress, insuredsex, insuredage, polapplydate, status, verdict, qcoperator, 
+    create_date, modify_date, operator,banknetwork,properson,bankcode,productrisklevels,
+    companyname
+  </sql>
+  <select id="selectByFilter" resultType="sinosoft.project.qcac.vo.VideoMainVo" parameterType="map">
+  		SELECT
+  `docid` id,
+	businessno buno,
+	beforebusinessno bebuno,
+  `doccode` doccode,
+  `risktypecode` risktype,
+  `agentname` agentname,
+  `type` datatype,
+  `numpages` num,
+  appntname,
+  appntage,
+  polapplydate,
+  `status` status,
+  `verdict` verdict
+FROM
+  `es_video_main`
+WHERE
+  `qcoperator` IS NULL AND `status` = '0' AND 1 = 1
+  </select>
+  <select id="selectByQCOperator" resultType="sinosoft.project.qcac.vo.VideoMainVo" parameterType="map">
+  				SELECT
+  `docid` id,
+	businessno buno,
+	beforebusinessno bebuno,
+  `doccode` doccode,
+  `risktypecode` risktype,
+  `agentname` agentname,
+  `type` datatype,
+  `numpages` num,
+  appntname,
+  appntage,
+  polapplydate,
+  `status` status,
+  `verdict` verdict
+FROM
+  `es_video_main`
+WHERE
+  `qcoperator` =#{videoMainVo.qcoperator} AND 1 = 1
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from es_video_main
+    where docid = #{docid,jdbcType=VARCHAR}
+  </select>
+  <update id="updateBydocCode" parameterType="map">
+ 	 	update es_video_main
+    	set qcoperator = #{videoMainVo.qcoperator} where DOCCODE = #{videoMainVo.doccode}
+  </update>
+  <update id="updateVideoMainState" parameterType="java.lang.String">
+ 	 	update es_video_main
+    	set status = #{1} where DOCCODE = #{0}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from es_video_main
+    where docid = #{docid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="sinosoft.project.entity.VideoMain" >
+    insert into es_video_main (docid, doccode, businessno, 
+      beforebusinessno, channel, busstype, 
+      subtype, type, numpages, 
+      agentid, agentname, company, 
+      risktypecode,bankcode, banknetwork,
+      properson,appntname, appntidtype, 
+      appntidno, appntbirthday, appntadress, 
+      appntsex, appntage, insuredname, 
+      insuredtype, insuredno, insuredbirthday, 
+      insuredadress, insuredsex, insuredage, 
+      polapplydate, status, verdict, 
+      qcoperator, create_date, modify_date, 
+      operator, requestid)
+    values (#{docid,jdbcType=VARCHAR}, #{doccode,jdbcType=VARCHAR}, #{businessno,jdbcType=VARCHAR}, 
+      #{beforebusinessno,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, #{busstype,jdbcType=VARCHAR}, 
+      #{subtype,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{numpages,jdbcType=VARCHAR}, 
+      #{agentid,jdbcType=VARCHAR}, #{agentname,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{risktypecode,jdbcType=VARCHAR},#{bankcode,jdbcType=VARCHAR}, #{banknetwork,jdbcType=VARCHAR},
+      #{properson,jdbcType=VARCHAR},#{appntname,jdbcType=VARCHAR}, #{appntidtype,jdbcType=VARCHAR}, 
+      #{appntidno,jdbcType=VARCHAR}, #{appntbirthday,jdbcType=TIMESTAMP}, #{appntadress,jdbcType=VARCHAR}, 
+      #{appntsex,jdbcType=VARCHAR}, #{appntage,jdbcType=VARCHAR}, #{insuredname,jdbcType=VARCHAR}, 
+      #{insuredtype,jdbcType=VARCHAR}, #{insuredno,jdbcType=VARCHAR}, #{insuredbirthday,jdbcType=TIMESTAMP}, 
+      #{insuredadress,jdbcType=VARCHAR}, #{insuredsex,jdbcType=VARCHAR}, #{insuredage,jdbcType=VARCHAR}, 
+      #{polapplydate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{verdict,jdbcType=VARCHAR}, 
+      #{qcoperator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=VARCHAR}), #{requestid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="sinosoft.project.video.xmlbean.VideoMain" >
+    insert into ES_VIDEO_MAIN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="docid != null" >
+        DOCID,
+      </if>
+      <if test="prtno != null" >
+        DOCCODE,
+      </if>
+      <if test="businessno != null" >
+        BUSINESSNO,
+      </if>
+      <if test="beforebusinessno != null" >
+        BEFOREBUSINESSNO,
+      </if>
+      <if test="channel != null" >
+        CHANNEL,
+      </if>
+      <if test="busstype != null" >
+        BUSSTYPE,
+      </if>
+      <if test="subtype != null" >
+        "SUBTYPE",
+      </if>
+      <if test="type != null" >
+        "TYPE",
+      </if>
+      <if test="numpages != null" >
+        NUMPAGES,
+      </if>
+      <if test="agentid != null" >
+        AGENTID,
+      </if>
+      <if test="agentname != null" >
+        AGENTNAME,
+      </if>
+      <if test="company != null" >
+        COMPANY,
+      </if>
+      <if test="risktypecode != null" >
+        RISKTYPECODE,
+      </if>
+      <if test="appntname != null" >
+        APPNTNAME,
+      </if>
+      <if test="appntidtype != null" >
+        APPNTIDTYPE,
+      </if>
+      <if test="appntidno != null" >
+        APPNTIDNO,
+      </if>
+      <if test="appntbirthday != null" >
+        APPNTBIRTHDAY,
+      </if>
+      <if test="appntadress != null" >
+        APPNTADRESS,
+      </if>
+      <if test="appntsex != null" >
+        APPNTSEX,
+      </if>
+      <if test="appntage != null" >
+        APPNTAGE,
+      </if>
+      <if test="insuredname != null" >
+        INSUREDNAME,
+      </if>
+      <if test="insuredtype != null" >
+        INSUREDTYPE,
+      </if>
+      <if test="insuredno != null" >
+        INSUREDNO,
+      </if>
+      <if test="insuredbirthday != null" >
+        INSUREDBIRTHDAY,
+      </if>
+      <if test="insuredadress != null" >
+        INSUREDADRESS,
+      </if>
+      <if test="insuredsex != null" >
+        INSUREDSEX,
+      </if>
+      <if test="insuredage != null" >
+        INSUREDAGE,
+      </if>
+      <if test="polapplydate != null" >
+        POLAPPLYDATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="verdict != null" >
+        VERDICT,
+      </if>
+      <if test="qcoperator != null" >
+        QCOPERATOR,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="modifyDate != null" >
+        MODIFY_DATE,
+      </if>
+      <if test="operator != null" >
+        "OPERATOR",
+      </if>
+      <if test="mangcode != null" >
+        MANGCODE,
+      </if>
+      <if test="requestid != null" >
+        REQUESTID,
+      </if>
+      <if test="appntidimg != null" >
+        APPNTIDIMG,
+      </if>
+      <if test="insuredimg != null" >
+        INSUREDIMG,
+      </if>
+      <if test="isrequired != null" >
+        ISREQUIRED,
+      </if>
+      <if test="uploaddate != null" >
+        UPLOADDATE,
+      </if>
+      <if test="uploadtime != null" >
+        UPLOADTIME,
+      </if>
+      <if test="recdate != null" >
+        RECDATE,
+      </if>
+      <if test="rectime != null" >
+        RECTIME,
+      </if>
+      <if test="uploadcount != null" >
+        UPLOADCOUNT,
+      </if>
+      <if test="qcrecordcount != null" >
+        QCRECORDCOUNT,
+      </if>
+      <if test="resource != null" >
+       	"RESOURCE",
+      </if>
+      <if test="datatype != null" >
+        DATATYPE,
+      </if>
+      <if test="risktype != null" >
+        RISKTYPE,
+      </if>
+      <if test="bankcode != null" >
+        BANKCODE,
+      </if>
+      <if test="banknetwork != null" >
+        BANKNETWORK,
+      </if>
+      <if test="properson != null" >
+        PROPERSON,
+      </if>     
+      <if test="operation != null" >
+        OPERATION,
+      </if>
+      <if test="repeatperson != null" >
+        REPEATPERSON,
+      </if>
+      <if test="repeatpersoncode != null" >
+        REPEATPERSONCODE,
+      </if>
+      
+      <if test="numproducts != null" >
+        NUMPRODUCTS,
+      </if>
+     <if test="appntno != null" >
+        APPNTNO,
+      </if>
+	<if test="appntriskgrade != null" >
+        APPNTRISKGRADE,
+      </if>
+	<if test="isadvancedage != null" >
+        ISADVANCEDAGE,
+      </if>
+	<if test="isfirstbuy != null" >
+        ISFIRSTBUY,
+      </if>
+	<if test="financedcode != null" >
+       RESOURSE,
+      </if>
+	  <if test="financedcomcode != null" >
+       RESOURSEMIN,
+      </if>
+	<if test="startscandate != null" >
+       STARTSCANDATE,
+      </if>
+	<if test="endscandate != null" >
+       ENDSCANDATE,
+      </if>
+	<if test="isfixedperson != null" >
+       ISFIXEDPERSON,
+      </if>
+	<if test="remarks != null" >
+       REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="docid != null" >
+        #{docid,jdbcType=VARCHAR},
+      </if>
+      <if test="prtno != null" >
+        #{prtno,jdbcType=VARCHAR},
+      </if>
+      <if test="businessno != null" >
+        #{businessno,jdbcType=VARCHAR},
+      </if>
+      <if test="beforebusinessno != null" >
+        #{beforebusinessno,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="busstype != null" >
+        #{busstype,jdbcType=VARCHAR},
+      </if>
+      <if test="subtype != null" >
+        #{subtype,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="numpages != null" >
+        #{numpages,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null" >
+        #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentname != null" >
+        #{agentname,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="risktypecode != null" >
+        #{risktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="appntname != null" >
+        #{appntname,jdbcType=VARCHAR},
+      </if>
+      <if test="appntidtype != null" >
+        #{appntidtype,jdbcType=VARCHAR},
+      </if>
+      <if test="appntidno != null" >
+        #{appntidno,jdbcType=VARCHAR},
+      </if>
+      <if test="appntbirthday != null" >
+        #{appntbirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appntadress != null" >
+        #{appntadress,jdbcType=VARCHAR},
+      </if>
+      <if test="appntsex != null" >
+        #{appntsex,jdbcType=VARCHAR},
+      </if>
+      <if test="appntage != null" >
+        #{appntage,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredname != null" >
+        #{insuredname,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredtype != null" >
+        #{insuredtype,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredno != null" >
+        #{insuredno,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredbirthday != null" >
+        #{insuredbirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insuredadress != null" >
+        #{insuredadress,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredsex != null" >
+        #{insuredsex,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredage != null" >
+        #{insuredage,jdbcType=VARCHAR},
+      </if>
+      <if test="polapplydate != null" >
+        #{polapplydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="verdict != null" >
+        #{verdict,jdbcType=VARCHAR},
+      </if>
+      <if test="qcoperator != null" >
+        #{qcoperator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="mangcode != null" >
+        #{mangcode,jdbcType=VARCHAR},
+      </if>
+       <if test="requestid != null" >
+        #{requestid,jdbcType=VARCHAR},
+      </if>
+      <if test="appntidimg != null" >
+        #{appntidimg,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredimg != null" >
+        #{insuredimg,jdbcType=VARCHAR},
+      </if>
+      <if test="isrequired != null" >
+        #{isrequired,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaddate != null" >
+        #{uploaddate,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=VARCHAR},
+      </if>
+      <if test="recdate != null" >
+      	 #{recdate,jdbcType=VARCHAR},
+      </if>
+      <if test="rectime != null" >
+        #{rectime,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadcount != null" >
+        #{uploadcount,jdbcType=VARCHAR},
+      </if>
+      <if test="qcrecordcount != null" >
+        #{qcrecordcount,jdbcType=VARCHAR},
+      </if>
+      <if test="resource != null" >
+        #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="datatype != null" >
+        #{datatype,jdbcType=VARCHAR},
+      </if>
+       <if test="risktype != null" >
+        #{risktype,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcode != null" >
+         #{bankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="banknetwork != null" >
+         #{banknetwork,jdbcType=VARCHAR},
+      </if>
+      <if test="properson != null" >
+         #{properson,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null" >
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="repeatperson != null" >
+        #{repeatperson,jdbcType=VARCHAR},
+      </if>
+      <if test="repeatpersoncode != null" >
+        #{repeatpersoncode,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="numproducts != null" >
+        #{numproducts,jdbcType=VARCHAR},
+      </if>
+	  <if test="appntno != null" >
+        #{appntno,jdbcType=VARCHAR},
+      </if>
+     <if test="appntriskgrade != null" >
+        #{appntriskgrade,jdbcType=VARCHAR},
+      </if>
+	  <if test="isadvancedage != null" >
+        #{isadvancedage,jdbcType=VARCHAR},
+      </if>
+	<if test="isfirstbuy != null" >
+        #{isfirstbuy,jdbcType=VARCHAR},
+      </if>
+	  <if test="financedcode != null" >
+        #{financedcode,jdbcType=VARCHAR},
+      </if>
+	 <if test="financedcomcode != null" >
+        #{financedcomcode,jdbcType=VARCHAR},
+      </if>
+	<if test="startscandate != null" >
+        #{startscandate,jdbcType=TIMESTAMP},
+      </if>
+	  <if test="endscandate != null" >
+        #{endscandate,jdbcType=TIMESTAMP},
+      </if>
+	<if test="isfixedperson != null" >
+        #{isfixedperson,jdbcType=VARCHAR},
+      </if>
+	  <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="sinosoft.project.entity.VideoMain" >
+    update es_video_main
+    <set >
+      <if test="doccode != null" >
+        doccode = #{doccode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessno != null" >
+        businessno = #{businessno,jdbcType=VARCHAR},
+      </if>
+      <if test="beforebusinessno != null" >
+        beforebusinessno = #{beforebusinessno,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="busstype != null" >
+        busstype = #{busstype,jdbcType=VARCHAR},
+      </if>
+      <if test="subtype != null" >
+        subtype = #{subtype,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="numpages != null" >
+        numpages = #{numpages,jdbcType=VARCHAR},
+      </if>
+      <if test="agentid != null" >
+        agentid = #{agentid,jdbcType=VARCHAR},
+      </if>
+      <if test="agentname != null" >
+        agentname = #{agentname,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="risktypecode != null" >
+        risktypecode = #{risktypecode,jdbcType=VARCHAR},
+      </if>
+      <if test="appntname != null" >
+        appntname = #{appntname,jdbcType=VARCHAR},
+      </if>
+      <if test="appntidtype != null" >
+        appntidtype = #{appntidtype,jdbcType=VARCHAR},
+      </if>
+      <if test="appntidno != null" >
+        appntidno = #{appntidno,jdbcType=VARCHAR},
+      </if>
+      <if test="appntbirthday != null" >
+        appntbirthday = #{appntbirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appntadress != null" >
+        appntadress = #{appntadress,jdbcType=VARCHAR},
+      </if>
+      <if test="appntsex != null" >
+        appntsex = #{appntsex,jdbcType=VARCHAR},
+      </if>
+      <if test="appntage != null" >
+        appntage = #{appntage,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredname != null" >
+        insuredname = #{insuredname,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredtype != null" >
+        insuredtype = #{insuredtype,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredno != null" >
+        insuredno = #{insuredno,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredbirthday != null" >
+        insuredbirthday = #{insuredbirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insuredadress != null" >
+        insuredadress = #{insuredadress,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredsex != null" >
+        insuredsex = #{insuredsex,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredage != null" >
+        insuredage = #{insuredage,jdbcType=VARCHAR},
+      </if>
+      <if test="polapplydate != null" >
+        polapplydate = #{polapplydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="verdict != null" >
+        verdict = #{verdict,jdbcType=VARCHAR},
+      </if>
+      <if test="qcoperator != null" >
+        qcoperator = #{qcoperator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcode != null" >
+         bankcode = #{bankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="banknetwork != null" >
+         banknetwork = #{banknetwork,jdbcType=VARCHAR},
+      </if>
+      <if test="properson != null" >
+         properson = #{properson,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where docid = #{docid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="sinosoft.project.entity.VideoMain" >
+    update es_video_main
+    set doccode = #{doccode,jdbcType=VARCHAR},
+      businessno = #{businessno,jdbcType=VARCHAR},
+      beforebusinessno = #{beforebusinessno,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      busstype = #{busstype,jdbcType=VARCHAR},
+      subtype = #{subtype,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      numpages = #{numpages,jdbcType=VARCHAR},
+      agentid = #{agentid,jdbcType=VARCHAR},
+      agentname = #{agentname,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      risktypecode = #{risktypecode,jdbcType=VARCHAR},
+      appntname = #{appntname,jdbcType=VARCHAR},
+      appntidtype = #{appntidtype,jdbcType=VARCHAR},
+      appntidno = #{appntidno,jdbcType=VARCHAR},
+      appntbirthday = #{appntbirthday,jdbcType=TIMESTAMP},
+      appntadress = #{appntadress,jdbcType=VARCHAR},
+      appntsex = #{appntsex,jdbcType=VARCHAR},
+      appntage = #{appntage,jdbcType=VARCHAR},
+      insuredname = #{insuredname,jdbcType=VARCHAR},
+      insuredtype = #{insuredtype,jdbcType=VARCHAR},
+      insuredno = #{insuredno,jdbcType=VARCHAR},
+      insuredbirthday = #{insuredbirthday,jdbcType=TIMESTAMP},
+      insuredadress = #{insuredadress,jdbcType=VARCHAR},
+      insuredsex = #{insuredsex,jdbcType=VARCHAR},
+      insuredage = #{insuredage,jdbcType=VARCHAR},
+      polapplydate = #{polapplydate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      verdict = #{verdict,jdbcType=VARCHAR},
+      qcoperator = #{qcoperator,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR},
+      bankcode = #{bankcode,jdbcType=VARCHAR},
+      banknetwork = #{banknetwork,jdbcType=VARCHAR},
+      properson = #{properson,jdbcType=VARCHAR},
+      operation = #{operation,jdbcType=VARCHAR}
+    where docid = #{docid,jdbcType=VARCHAR}
+  </update>
+  <sql id="insertMainHis">
+  		docid, doccode, businessno, beforebusinessno, channel, busstype, "SUBTYPE", "TYPE", numpages, 
+    agentid, agentname, company, risktypecode,bankcode,banknetwork,properson, appntname, appntidtype, appntidno, appntbirthday, 
+    appntadress, appntsex, appntage, insuredname, insuredtype, insuredno, insuredbirthday, 
+    insuredadress, insuredsex, insuredage, polapplydate, status, verdict, qcoperator, 
+    create_date, modify_date, "OPERATOR", mangcode, requestid,appntidimg,insuredimg,
+    isrequired,uploaddate,uploadtime,recdate, rectime,uploadcount,qcrecordcount,
+    "RESOURCE",datatype,activate_date,player,operation,repeatperson,numproducts,appntno,appntriskgrade,
+    isadvancedage,isfirstbuy,resourse,resoursemin,startscandate,endscandate,isfixedperson,remarks
+  </sql>
+  <sql id="insertPagesHis">
+  		PAGEID, DOCID, HOSTNAME, BUSINESSNO, BUSSTYPE, "SUBTYPE", FILETYPE, URL, PAGENAME, 
+    PAGESUFFIX, IMGTIMEPOINT, DESCRIBEID, RECDATE, RECTIME, RECDURATION, CREATE_DATE, 
+    MODIFY_DATE, "OPERATOR", PICPATHFTP, PICFTP,REQUESTID,VIOCETEXT,FILESIZE
+  </sql>
+    <sql id="insertProductsSql">
+  		PRODUCTID,DOCID,BUSINESSNO,BUSINESSTYPECODE,BUSINESSTYPENAME,PRODUCTTYPECODE,PRODUCTTYPENAME,
+  		PRODUCTCODE,PRODUCTNAME,INVESTMENT,CREATE_DATE,MODIFY_DATE,"OPERATOR",BEFOREBUSINESSNO,PRODUCTRISKLEVELS,COMPANYNAME
+  </sql>
+  <insert id="insertIfMethod" parameterType="java.lang.String">
+  	<if test="Method=='insertMainHis'">
+  		insert into es_video_main_his (uuid,
+  		<include refid="insertMainHis"></include>
+  		)  (select #{1},
+  		<include refid="insertMainHis"></include>
+  		from es_video_main 
+		where businessno=#{0})
+  	</if>
+  	<if test="Method=='insertPagesHis'">
+  		insert into ES_VIDEO_PAGES_his (uuid,
+  		<include refid="insertPagesHis"></include>
+  		)  (select #{1},
+  		<include refid="insertPagesHis"></include>
+  		 from ES_VIDEO_PAGES 
+		where businessno=#{0})
+  	</if>
+  	<if test="Method=='insertProductsHis'">
+  		insert into ES_VIDEO_PRODUCTS_HIS (uuid,
+  		<include refid="insertProductsSql"></include>
+  		)  (select #{1},
+  		<include refid="insertProductsSql"></include>
+  		 from ES_VIDEO_PRODUCTS 
+		where businessno=#{0})
+  	</if>
+  </insert>
+  
+  <insert id="insertBatch"  parameterType="sinosoft.project.video.xmlbean.VideoPages">
+      insert into ES_VIDEO_PAGES (
+      <include refid="insertPagesHis"></include>
+      )
+      values(#{videopages.pageid,jdbcType=VARCHAR},#{videopages.docid,jdbcType=VARCHAR},#{videopages.hostname,jdbcType=VARCHAR},
+      #{videopages.businessno,jdbcType=VARCHAR},#{videopages.busstype,jdbcType=VARCHAR},#{videopages.subtype,jdbcType=VARCHAR},
+      #{videopages.filetype,jdbcType=VARCHAR},#{videopages.url,jdbcType=VARCHAR},#{videopages.pagename,jdbcType=VARCHAR},
+      #{videopages.pagesuffix,jdbcType=VARCHAR},#{videopages.imgtimepoint,jdbcType=VARCHAR},#{videopages.describeid,jdbcType=VARCHAR},
+      #{videopages.recdate,jdbcType=TIMESTAMP},#{videopages.rectime,jdbcType=VARCHAR},#{videopages.recduration,jdbcType=VARCHAR},
+      #{videopages.createDate,jdbcType=TIMESTAMP},#{videopages.modifyDate,jdbcType=TIMESTAMP},#{videopages.operator,jdbcType=VARCHAR},
+      #{videopages.picpathftp,jdbcType=VARCHAR},#{videopages.picftp,jdbcType=VARCHAR},#{videopages.requestid,jdbcType=VARCHAR},#{videopages.viocetext,jdbcType=VARCHAR},
+      #{videopages.filesize,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertBatchMain"  parameterType="sinosoft.project.video.xmlbean.VideoMain">
+      insert into es_video_main (
+      <include refid="insertMainHis"></include>
+      ) values (#{videomain.docid},#{videomain.doccode},#{videomain.businessno},
+      #{videomain.beforebusinessno},#{videomain.channel},#{videomain.busstype},
+      #{videomain.subtype},#{videomain.type},#{videomain.numpages},
+      #{videomain.agentid},#{videomain.agentname},#{videomain.company},
+      #{videomain.risktypecode},#{videomain.bankcode},#{videomain.banknetwork},
+      #{videomain.properson},#{videomain.appntname},#{videomain.appntidtype},
+      #{videomain.appntidno},#{videomain.appntbirthday},#{videomain.appntadress},
+      #{videomain.appntsex},#{videomain.appntage},#{videomain.insuredname},#{videomain.insuredtype},
+      #{videomain.insuredno},#{videomain.insuredbirthday},#{videomain.insuredadress},#{videomain.insuredsex},
+      #{videomain.insuredage},#{videomain.polapplydate},#{videomain.status},#{videomain.verdict},
+      #{videomain.qcoperator},#{videomain.create_date},#{videomain.modify_date},#{videomain.operator},
+      #{videomain.mangcode},#{videomain.requestid},#{videomain.appntidimg},#{videomain.insuredimg},
+      #{videomain.isrequired},#{videomain.uploaddate},#{videomain.uploadtime},#{videomain.recdate},
+      #{videomain.rectime},#{videomain.uploadcount},#{videomain.qcrecordcount},#{videomain.resource},
+      #{videomain.datatype},#{videomain.activate_date},#{videomain.player},#{videomain.operation}))
+  </insert>
+  <update id="updateQcOperator" parameterType="java.lang.String">
+  		UPDATE es_video_main a  SET a.qcoperator = (select b.qcoperator from es_video_main b
+		 WHERE b.businessno=#{0} AND a.businessno=#{1} )
+  </update>
+  <update id="updateAppntidimg" parameterType="java.lang.String">
+  		UPDATE es_video_main a SET a.appntidimg = (select b.appntidimg from es_video_main b
+		 WHERE b.businessno=#{0} AND a.businessno=#{1})
+  </update>
+  <update id="updateInsuredimg" parameterType="java.lang.String">
+  		UPDATE es_video_main a SET a.insuredimg = (select b.insuredimg from es_video_main b
+		 WHERE b.businessno=#{0} AND a.businessno=#{1})
+  </update>
+  <update id="updateUploadCount" parameterType="java.lang.String">
+		UPDATE es_video_main A set A.UploadCount=
+nvl((select b.UploadCount from es_video_main_his b where b.businessno=#{0} ),1)+1 where  a.businessno=#{1}
+
+
+  </update>
+  <update id="updateQcRecordCount" parameterType="java.lang.String">
+		UPDATE es_video_main a SET a.QcRecordCount = nvl((select b.QcRecordCount from es_video_main_his b
+		 WHERE b.businessno=#{0}),1) where a.businessno=#{1}
+  </update>
+  <delete id="deleteIfMethod" parameterType="java.lang.String">
+	<if test="Method=='deleteMain'">
+		delete from es_video_main where businessno=#{0} and doccode=#{1}
+	</if>
+	<if test="Method=='deletePages'">
+		delete from ES_VIDEO_PAGES where businessno=#{0}
+	</if>
+	<if test="Method=='deleteProducts'">
+		delete from ES_VIDEO_PRODUCTS where businessno=#{0}
+	</if>
+  </delete>
+  <select id="selectByDoccode"  resultType="sinosoft.project.video.xmlbean.VideoMain">
+  		select doccode,businessno,beforebusinessno from es_video_main where doccode=#{doccode,jdbcType=VARCHAR}
+  		<if test="ststus!='' and ststus!=null">
+  			and status=#{ststus} and verdict=#{verdict}
+        </if>
+  </select>
+  
+  
+   <select id="selectCountBunisno_abstr" resultType="java.lang.Integer">
+  		select  count(distinct businessno) as total from
+ 			es_video_main where 1=1
+ 		<if test="ruleMainLog.channel!=null and ruleMainLog.channel!=''">
+	  		AND CHANNEL=#{ruleMainLog.channel} 
+  		 </if>
+  		 <if test="ruleMainLog.bankcode!=null and ruleMainLog.bankcode!=''">
+	  		AND bankcode=#{ruleMainLog.bankcode}
+  		 </if>
+  		 <if test="ruleMainLog.comcode!=null and ruleMainLog.comcode!=''">
+	  		AND mangcode=#{ruleMainLog.comcode} 
+  		 </if>
+  		 <if test="ruleMainLog.nowday!=null">
+	  		AND to_char(create_date,'yyyy-MM-dd')=to_char(#{ruleMainLog.nowday} ,'yyyy-MM-dd')
+  		 </if>
+  		 and status !='3'
+  </select>
+  <update id="update_abstract" parameterType="java.lang.String">
+  		update es_video_main set status=#{1} where businessno=#{0}
+  </update>
+    <select id="selectCountBunisno_abstr_all" resultType="java.lang.Integer">
+  		select  count(distinct businessno) as total from
+ 			es_video_main where 1=1
+ 		<if test="ruleMainLog.channel!=null and ruleMainLog.channel!=''">
+	  		AND CHANNEL=#{ruleMainLog.channel} 
+  		 </if>
+  		 <if test="ruleMainLog.bankcode!=null and ruleMainLog.bankcode!=''">
+	  		AND bankcode=#{ruleMainLog.bankcode}
+  		 </if>
+  		 <if test="ruleMainLog.nowday!=null">
+	  		AND to_char(create_date,'yyyy-MM-dd')=to_char(#{ruleMainLog.nowday} ,'yyyy-MM-dd')
+  		 </if>
+  		 and status !='3'
+  </select>
+     <select id="selectCountBunisno_abstr_alltb" resultType="java.lang.Integer">
+  		select  count(distinct businessno) as total from
+ 			es_video_main where 1=1
+ 			<if test="ruleMainLog.channel!=null and ruleMainLog.channel!=''">
+	  		AND CHANNEL=#{ruleMainLog.channel} 
+  		 </if>
+  		 <if test="ruleMainLog.bankcode!=null and ruleMainLog.bankcode!=''">
+	  		AND bankcode=#{ruleMainLog.bankcode}
+  		 </if>
+  		 <if test="ruleMainLog.nowday!=null">
+	  		AND to_char(create_date,'yyyy-MM-dd')=to_char(#{ruleMainLog.nowday} ,'yyyy-MM-dd')
+  		 </if>
+  </select>
+  <select id="selectCountBunisno" resultType="java.lang.Integer">
+  		select  count(distinct businessno) as total from
+ 			es_video_main where 1=1
+ 			<if test="ruleMainLog.channel!=null and ruleMainLog.channel!=''">
+	  		AND CHANNEL=#{ruleMainLog.channel} 
+  		 </if>
+  		 <if test="ruleMainLog.bankcode!=null and ruleMainLog.bankcode!=''">
+	  		AND bankcode=#{ruleMainLog.bankcode}
+  		 </if>
+  		 <if test="ruleMainLog.comcode!=null and ruleMainLog.comcode!=''">
+	  		AND mangcode=#{ruleMainLog.comcode} 
+  		 </if>
+  		 <if test="ruleMainLog.nowday!=null">
+	  		AND to_char(create_date,'yyyy-MM-dd')=to_char(#{ruleMainLog.nowday} ,'yyyy-MM-dd')
+  		 </if>
+  </select>
+ 
+   <insert id="insertProducts"  parameterType="java.util.List">
+  		insert into ES_VIDEO_PRODUCTS (
+  			<include refid="insertProductsSql"></include>
+  		)
+  		<foreach collection="list" item="item" index="index" separator="union all" > 		 	
+        (
+        SELECT
+        #{item.productid,jdbcType=VARCHAR},#{item.docid,jdbcType=VARCHAR},#{item.businessno,jdbcType=VARCHAR},
+		#{item.businesstypecode,jdbcType=VARCHAR},#{item.businesstypename,jdbcType=VARCHAR},#{item.producttypecode,jdbcType=VARCHAR},
+		#{item.producttypename,jdbcType=VARCHAR},#{item.productcode,jdbcType=VARCHAR},#{item.productname,jdbcType=VARCHAR},
+		#{item.investment,jdbcType=VARCHAR},#{item.createDate,jdbcType=TIMESTAMP},#{item.modifyDate,jdbcType=TIMESTAMP},
+		#{item.operator,jdbcType=VARCHAR},#{item.beforebusinessno,jdbcType=VARCHAR},#{item.productrisklevels,jdbcType=VARCHAR},
+		#{item.companyname,jdbcType=VARCHAR}
+		FROM DUAL 
+		)
+    </foreach>  
+  </insert>
+</mapper>
